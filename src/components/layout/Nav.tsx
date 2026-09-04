@@ -23,17 +23,17 @@
  * 'use client' is required for IntersectionObserver and window references.
  */
 
-'use client';
+"use client";
 
-import { useState, useEffect, useCallback, useRef } from 'react';
-import type { SectionMeta } from '@/lib/sections';
+import { useState, useEffect, useCallback, useRef } from "react";
+import type { SectionMeta } from "@/lib/sections";
 
 interface NavProps {
   sections: SectionMeta[];
 }
 
 export function Nav({ sections }: NavProps) {
-  const [activeId, setActiveId] = useState<string>(sections[0]?.id ?? '');
+  const [activeId, setActiveId] = useState<string>(sections[0]?.id ?? "");
   const [mobileOpen, setMobileOpen] = useState(false);
 
   // Track latest ratios across observer callbacks so we can pick the winner.
@@ -57,7 +57,7 @@ export function Nav({ sections }: NavProps) {
         });
 
         // Find the id with the highest ratio across ALL tracked sections.
-        let bestId = '';
+        let bestId = "";
         let bestRatio = -1;
         ratioMap.current.forEach((ratio, id) => {
           if (ratio > bestRatio) {
@@ -71,7 +71,7 @@ export function Nav({ sections }: NavProps) {
           setActiveId(bestId);
         }
       },
-      { rootMargin: '-40% 0px -55% 0px', threshold: [0, 0.1, 0.25, 0.5, 0.75, 1.0] },
+      { rootMargin: "-40% 0px -55% 0px", threshold: [0, 0.1, 0.25, 0.5, 0.75, 1.0] }
     );
 
     sections.forEach((s) => {
@@ -92,21 +92,18 @@ export function Nav({ sections }: NavProps) {
     };
   }, [sections]);
 
-  const handleNavClick = useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
-      e.preventDefault();
-      const el = document.getElementById(id);
-      if (!el) return;
+  const handleNavClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    const el = document.getElementById(id);
+    if (!el) return;
 
-      // Req 8.5 — instant jump when the user prefers reduced motion.
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' });
+    // Req 8.5 — instant jump when the user prefers reduced motion.
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el.scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
 
-      // Close mobile menu after navigation.
-      setMobileOpen(false);
-    },
-    [],
-  );
+    // Close mobile menu after navigation.
+    setMobileOpen(false);
+  }, []);
 
   // Shared link renderer used by all three layout variants.
   function NavLink({ id, label }: { id: string; label: string }) {
@@ -115,14 +112,12 @@ export function Nav({ sections }: NavProps) {
       <a
         href={`#${id}`}
         onClick={(e) => handleNavClick(e, id)}
-        aria-current={isActive ? 'location' : undefined}
+        aria-current={isActive ? "location" : undefined}
         className={[
-          'block py-1 text-sm transition-colors duration-150',
-          'focus:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:rounded',
-          isActive
-            ? 'text-signal font-semibold'
-            : 'text-muted hover:text-text',
-        ].join(' ')}
+          "block py-1 text-sm transition-colors duration-150",
+          "focus:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:rounded",
+          isActive ? "text-signal font-semibold" : "text-muted hover:text-text",
+        ].join(" ")}
       >
         {label}
       </a>
@@ -141,9 +136,9 @@ export function Nav({ sections }: NavProps) {
       {/* ── Tablet: horizontal top bar 768–1023 px ──────────────────────── */}
       <div
         className={[
-          'hidden md:flex lg:hidden flex-wrap gap-x-4 gap-y-1',
-          'sticky top-0 z-30 bg-bg border-b border-rule py-3 px-4',
-        ].join(' ')}
+          "hidden md:flex lg:hidden flex-wrap gap-x-4 gap-y-1",
+          "sticky top-0 z-30 bg-bg border-b border-rule py-3 px-4",
+        ].join(" ")}
       >
         {sections.map((s) => (
           <NavLink key={s.id} id={s.id} label={s.label} />
@@ -157,22 +152,22 @@ export function Nav({ sections }: NavProps) {
           type="button"
           aria-expanded={mobileOpen}
           aria-controls="mobile-nav-list"
-          aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
           onClick={() => setMobileOpen((prev) => !prev)}
           className={[
-            'flex items-center justify-between px-4 py-3 w-full text-left',
-            'text-sm font-medium text-text',
-            'focus:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-inset',
-          ].join(' ')}
+            "flex items-center justify-between px-4 py-3 w-full text-left",
+            "text-sm font-medium text-text",
+            "focus:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-inset",
+          ].join(" ")}
         >
           <span>
             {/* Show the active section name as context */}
-            {sections.find((s) => s.id === activeId)?.label ?? 'Navigate'}
+            {sections.find((s) => s.id === activeId)?.label ?? "Navigate"}
           </span>
           {/* Chevron icon — rotates when open. aria-hidden because label is on button. */}
           <svg
             aria-hidden="true"
-            className={`w-4 h-4 shrink-0 transition-transform duration-150 ${mobileOpen ? 'rotate-180' : ''}`}
+            className={`w-4 h-4 shrink-0 transition-transform duration-150 ${mobileOpen ? "rotate-180" : ""}`}
             viewBox="0 0 16 16"
             fill="none"
             stroke="currentColor"

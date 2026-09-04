@@ -8,10 +8,10 @@
  * - Server component — no 'use client' needed.
  */
 
-import type { Project } from '@/content/schema';
-import { Section } from '@/components/layout/Section';
-import { Chip } from '@/components/ui/Chip';
-import { ExternalLink } from '@/components/ui/ExternalLink';
+import type { Project } from "@/content/schema";
+import { Section } from "@/components/layout/Section";
+import { Chip } from "@/components/ui/Chip";
+import { ExternalLink } from "@/components/ui/ExternalLink";
 
 interface ProjectsProps {
   projects: Project[];
@@ -35,10 +35,7 @@ export function Projects({ projects }: ProjectsProps) {
             <p className="text-body mb-4">{project.description}</p>
 
             {project.technologies.length > 0 && (
-              <ul
-                aria-label="Technologies"
-                className="flex flex-wrap gap-2 list-none p-0 m-0"
-              >
+              <ul aria-label="Technologies" className="flex flex-wrap gap-2 list-none p-0 m-0">
                 {project.technologies.map((tech) => (
                   <li key={tech}>
                     <Chip>{tech}</Chip>

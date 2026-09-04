@@ -10,16 +10,16 @@ The architectural bet: **content is data, layout is code, and the two never mix.
 
 ## Technology Stack
 
-| Concern | Choice | Why |
-|---|---|---|
-| Framework | Next.js 15 (App Router), `output: 'export'` | Static HTML out, first-class metadata API, no server to pay for or patch |
-| Language | TypeScript, `strict: true` | The content schema is enforced at build time, which is the whole point of Req 1 |
-| Styling | Tailwind CSS v4 with CSS custom properties as tokens | Tokens live in one place; theme switching is a class on `<html>` |
-| Fonts | Self-hosted via `next/font/local` | Req 14.4 — no third-party font request on the critical path |
-| Icons | `lucide-react`, imported per-icon | Tree-shakes; avoids shipping an icon font |
-| Testing | Vitest + React Testing Library; `@axe-core/react` for a11y | Component contracts and Req 12.6 |
-| CI/CD | GitHub Actions | Req 15 |
-| Hosting | GitHub Pages (default) or S3 + CloudFront (alternative) | Both consume the same static export |
+| Concern   | Choice                                                     | Why                                                                             |
+| --------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| Framework | Next.js 15 (App Router), `output: 'export'`                | Static HTML out, first-class metadata API, no server to pay for or patch        |
+| Language  | TypeScript, `strict: true`                                 | The content schema is enforced at build time, which is the whole point of Req 1 |
+| Styling   | Tailwind CSS v4 with CSS custom properties as tokens       | Tokens live in one place; theme switching is a class on `<html>`                |
+| Fonts     | Self-hosted via `next/font/local`                          | Req 14.4 — no third-party font request on the critical path                     |
+| Icons     | `lucide-react`, imported per-icon                          | Tree-shakes; avoids shipping an icon font                                       |
+| Testing   | Vitest + React Testing Library; `@axe-core/react` for a11y | Component contracts and Req 12.6                                                |
+| CI/CD     | GitHub Actions                                             | Req 15                                                                          |
+| Hosting   | GitHub Pages (default) or S3 + CloudFront (alternative)    | Both consume the same static export                                             |
 
 **Deliberately excluded:** state management libraries, animation libraries, a CMS, a component kit. None of them earn their bundle weight for a page this size.
 
@@ -63,8 +63,8 @@ The architectural bet: **content is data, layout is code, and the two never mix.
 
 export interface Profile {
   name: string;
-  headline: string;          // "Computer Science Graduate — Software, Cloud & Systems"
-  summary: string;           // ≤ 60 words (Req 3.1)
+  headline: string; // "Computer Science Graduate — Software, Cloud & Systems"
+  summary: string; // ≤ 60 words (Req 3.1)
   location: string;
   statusLine: [string, string, string]; // exactly three facts (Req 2.3)
   highlights: string[];
@@ -72,9 +72,9 @@ export interface Profile {
 }
 
 export interface ContactLink {
-  kind: 'email' | 'phone' | 'linkedin' | 'github' | 'cv';
+  kind: "email" | "phone" | "linkedin" | "github" | "cv";
   label: string;
-  href: string;              // mailto: / tel: / https: / /fathi-zidan-cv.pdf
+  href: string; // mailto: / tel: / https: / /fathi-zidan-cv.pdf
   primary?: boolean;
 }
 
@@ -83,14 +83,14 @@ export interface ExperienceEntry {
   company: string;
   role: string;
   location: string;
-  start: string;             // 'YYYY-MM' — sortable (Req 4.2)
-  end: string | null;        // null renders as "Present" (Req 4.3)
+  start: string; // 'YYYY-MM' — sortable (Req 4.2)
+  end: string | null; // null renders as "Present" (Req 4.3)
   achievements: string[];
   technologies?: string[];
 }
 
 export interface SkillGroup {
-  label: 'Languages' | 'Areas' | 'Cloud & DevOps' | 'Tools';
+  label: "Languages" | "Areas" | "Cloud & DevOps" | "Tools";
   items: string[];
 }
 
@@ -99,7 +99,7 @@ export interface Project {
   name: string;
   description: string;
   technologies: string[];
-  repoUrl?: string;          // optional (Req 6.3)
+  repoUrl?: string; // optional (Req 6.3)
   liveUrl?: string;
 }
 
@@ -114,7 +114,7 @@ export interface Course {
   title: string;
   provider: string;
   year: number;
-  status: 'completed' | 'in-progress';   // Req 7.4
+  status: "completed" | "in-progress"; // Req 7.4
   durationHours?: number;
   projectNote?: string;
 }
@@ -157,20 +157,20 @@ Defined once as CSS custom properties on `:root` and `.dark`:
 
 ```css
 :root {
-  --bg:        #FAFAF8;   /* paper, very slightly warm off-white */
-  --surface:   #EFEFEA;   /* recessed panels, tag chips */
-  --text:      #16191C;   /* body ink */
-  --muted:     #5A6169;   /* dates, meta, secondary lines */
-  --rule:      #D5D6D0;   /* hairlines and dividers */
-  --signal:    #1D6A6A;   /* deep teal — links, active nav, focus */
+  --bg: #fafaf8; /* paper, very slightly warm off-white */
+  --surface: #efefea; /* recessed panels, tag chips */
+  --text: #16191c; /* body ink */
+  --muted: #5a6169; /* dates, meta, secondary lines */
+  --rule: #d5d6d0; /* hairlines and dividers */
+  --signal: #1d6a6a; /* deep teal — links, active nav, focus */
 }
 .dark {
-  --bg:        #121417;
-  --surface:   #1B1F23;
-  --text:      #E7E9E6;
-  --muted:     #99A1A8;
-  --rule:      #2C3238;
-  --signal:    #4FB3A8;
+  --bg: #121417;
+  --surface: #1b1f23;
+  --text: #e7e9e6;
+  --muted: #99a1a8;
+  --rule: #2c3238;
+  --signal: #4fb3a8;
 }
 ```
 
@@ -185,13 +185,13 @@ Two families, clearly distinct:
 
 Scale (1.25 ratio, clamped for fluid sizing):
 
-| Role | Size | Weight | Notes |
-|---|---|---|---|
-| Name | `clamp(3rem, 9vw, 6.5rem)` | 700 | tracking `-0.03em`, line-height 0.95 |
-| Section heading | `clamp(1.5rem, 3vw, 2rem)` | 600 | sentence case |
-| Role / project title | 1.25rem | 600 | |
-| Body | 1rem / 1.0625rem | 400 | line-height 1.6, measure ≤ 72ch |
-| Meta (dates, location) | 0.875rem | 400 | `--muted`, sentence case |
+| Role                   | Size                       | Weight | Notes                                |
+| ---------------------- | -------------------------- | ------ | ------------------------------------ |
+| Name                   | `clamp(3rem, 9vw, 6.5rem)` | 700    | tracking `-0.03em`, line-height 0.95 |
+| Section heading        | `clamp(1.5rem, 3vw, 2rem)` | 600    | sentence case                        |
+| Role / project title   | 1.25rem                    | 600    |                                      |
+| Body                   | 1rem / 1.0625rem           | 400    | line-height 1.6, measure ≤ 72ch      |
+| Meta (dates, location) | 0.875rem                   | 400    | `--muted`, sentence case             |
 
 **Prohibited treatments** (these read as templated): all-caps tracked-out eyebrow labels above headings, one accent-colored word inside a headline, meta strings joined by middle dots, arrows appended to link text, monospace used decoratively for labels.
 
@@ -284,11 +284,13 @@ There is no runtime error surface — no fetches, no forms, no user input. Failu
 ## Testing Strategy
 
 **Unit (Vitest)**
+
 - `formatDateRange` — present-date, single-month, year-boundary cases.
 - `byStartDesc` — ordering is derived from dates, not array order (Req 4.2).
 - Section registry — a section with an empty array is excluded.
 
 **Component (React Testing Library)**
+
 - Hero renders name, headline, three status facts, and both CTAs (Req 2).
 - Experience renders "Present" when `end` is null (Req 4.3).
 - Projects renders no anchor when `repoUrl` is absent (Req 6.3).
@@ -296,13 +298,16 @@ There is no runtime error surface — no fetches, no forms, no user input. Failu
 - ExternalLink always emits `rel="noopener noreferrer"` (Req 6.5).
 
 **Accessibility**
+
 - `axe-core` run against the fully rendered page; the assertion is zero critical or serious violations (Req 12.6).
 - Manual keyboard pass, scripted as a checklist in the README: skip link first, focus visible on every stop, nav reachable and operable, no focus trap.
 
 **Performance**
+
 - Lighthouse CI on the built output, budget-gated: performance ≥ 95, CLS < 0.1, first-load JS < 100 KB gzipped (Req 14).
 
 **Cross-cutting**
+
 - Responsive checks at 320 / 375 / 768 / 1024 / 1440 / 2560 px, asserting no horizontal overflow (Req 10.2).
 - Both themes checked for AA contrast on body and muted text (Req 11.5).
 

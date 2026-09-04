@@ -55,16 +55,9 @@ export const metadata: Metadata = {
  */
 const themeScript = `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark')}else{document.documentElement.classList.remove('dark')}}catch(e){}})();`;
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="en"
-      className={`${spaceGrotesk.variable} ${sourceSans.variable}`}
-    >
+    <html lang="en" className={`${spaceGrotesk.variable} ${sourceSans.variable}`}>
       <head>
         {/*
          * dangerouslySetInnerHTML is intentional here — this script must run

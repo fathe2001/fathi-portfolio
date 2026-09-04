@@ -20,10 +20,7 @@ export function Section({ id, title, children, className = "" }: SectionProps) {
       aria-labelledby={`${id}-heading`}
       className={`border-t border-rule py-16 ${className}`}
     >
-      <h2
-        id={`${id}-heading`}
-        className="text-heading mb-8"
-      >
+      <h2 id={`${id}-heading`} className="text-heading mb-8">
         {title}
       </h2>
       {children}

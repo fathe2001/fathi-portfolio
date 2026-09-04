@@ -17,10 +17,10 @@
  * document.documentElement and localStorage after hydration.
  */
 
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { Sun, Moon } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { Sun, Moon } from "lucide-react";
 
 export function ThemeToggle() {
   /**
@@ -32,7 +32,7 @@ export function ThemeToggle() {
 
   useEffect(() => {
     // Read the class that the pre-paint script already applied.
-    setIsDark(document.documentElement.classList.contains('dark'));
+    setIsDark(document.documentElement.classList.contains("dark"));
   }, []);
 
   const toggle = () => {
@@ -41,14 +41,14 @@ export function ThemeToggle() {
     // Mutate the class directly — no React state drives the theme.
     // The 150 ms transition in globals.css handles the visual cross-fade.
     if (next) {
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.add("dark");
     } else {
-      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.remove("dark");
     }
 
     // Persist so the pre-paint script can apply the right theme on the next load.
     try {
-      localStorage.setItem('theme', next ? 'dark' : 'light');
+      localStorage.setItem("theme", next ? "dark" : "light");
     } catch {
       // Storage may be blocked in some private-browsing environments.
       // Silently ignore — the class is still applied for this session.
@@ -66,15 +66,15 @@ export function ThemeToggle() {
        * state is — follows the principle of labelling the action, not the state.
        * Req 12.2: visible focus indicator via focus-visible:ring-2.
        */
-      aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+      aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
       className={[
         /* 44 × 44 px minimum touch target (Req 10.4) */
-        'min-h-[44px] min-w-[44px]',
-        'flex items-center justify-center',
-        'text-muted hover:text-text',
-        'transition-colors duration-150',
-        'focus:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:rounded',
-      ].join(' ')}
+        "min-h-[44px] min-w-[44px]",
+        "flex items-center justify-center",
+        "text-muted hover:text-text",
+        "transition-colors duration-150",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:rounded",
+      ].join(" ")}
     >
       {isDark ? (
         /* Sun icon: currently dark → switching to light */

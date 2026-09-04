@@ -4,8 +4,8 @@
  * outlined "In progress" marker.
  */
 
-import { Section } from '@/components/layout/Section';
-import type { Course } from '@/content/schema';
+import { Section } from "@/components/layout/Section";
+import type { Course } from "@/content/schema";
 
 interface CoursesProps {
   courses: Course[];
@@ -23,7 +23,7 @@ export function Courses({ courses }: CoursesProps) {
                 <p className="text-meta">{course.provider}</p>
               </div>
               <div className="text-meta shrink-0">
-                {course.status === 'in-progress' ? (
+                {course.status === "in-progress" ? (
                   <span
                     className="inline-block border border-signal text-signal px-2 py-0.5 rounded text-xs font-medium"
                     aria-label="In progress"
@@ -35,12 +35,8 @@ export function Courses({ courses }: CoursesProps) {
                 )}
               </div>
             </div>
-            {course.durationHours && (
-              <p className="text-meta mt-1">{course.durationHours} hours</p>
-            )}
-            {course.projectNote && (
-              <p className="text-meta mt-1">{course.projectNote}</p>
-            )}
+            {course.durationHours && <p className="text-meta mt-1">{course.durationHours} hours</p>}
+            {course.projectNote && <p className="text-meta mt-1">{course.projectNote}</p>}
           </li>
         ))}
       </ul>

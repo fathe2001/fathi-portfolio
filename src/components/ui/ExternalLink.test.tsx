@@ -16,9 +16,6 @@ describe("ExternalLink", () => {
 
   it("renders the correct href", () => {
     render(<ExternalLink href="https://example.com">Visit</ExternalLink>);
-    expect(screen.getByRole("link")).toHaveAttribute(
-      "href",
-      "https://example.com"
-    );
+    expect(screen.getByRole("link")).toHaveAttribute("href", "https://example.com");
   });
 });

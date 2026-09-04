@@ -16,18 +16,18 @@
  * Req 10.4 — interactive targets ≥ 44 × 44 px (enforced per-component)
  */
 
-import { resume } from '@/content/resume';
-import { buildSections } from '@/lib/sections';
-import { Nav } from '@/components/layout/Nav';
-import { ThemeToggle } from '@/components/layout/ThemeToggle';
-import { Hero } from '@/components/sections/Hero';
-import { About } from '@/components/sections/About';
-import { Experience } from '@/components/sections/Experience';
-import { Skills } from '@/components/sections/Skills';
-import { Projects } from '@/components/sections/Projects';
-import { Education } from '@/components/sections/Education';
-import { Courses } from '@/components/sections/Courses';
-import { Contact } from '@/components/sections/Contact';
+import { resume } from "@/content/resume";
+import { buildSections } from "@/lib/sections";
+import { Nav } from "@/components/layout/Nav";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
+import { Hero } from "@/components/sections/Hero";
+import { About } from "@/components/sections/About";
+import { Experience } from "@/components/sections/Experience";
+import { Skills } from "@/components/sections/Skills";
+import { Projects } from "@/components/sections/Projects";
+import { Education } from "@/components/sections/Education";
+import { Courses } from "@/components/sections/Courses";
+import { Contact } from "@/components/sections/Contact";
 
 export default function Page() {
   const sections = buildSections(resume);
@@ -37,18 +37,18 @@ export default function Page() {
    * links. Derived from resume data so it stays in sync automatically.
    */
   const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Person',
+    "@context": "https://schema.org",
+    "@type": "Person",
     name: resume.profile.name,
     jobTitle: resume.profile.headline,
     alumniOf: {
-      '@type': 'CollegeOrUniversity',
+      "@type": "CollegeOrUniversity",
       name: resume.education.institution,
     },
     sameAs: resume.contact
-      .filter((c) => c.kind === 'linkedin' || c.kind === 'github')
+      .filter((c) => c.kind === "linkedin" || c.kind === "github")
       .map((c) => c.href),
-    url: 'https://fathi-zidan.github.io',
+    url: "https://fathi-zidan.github.io",
   };
 
   return (
@@ -63,7 +63,6 @@ export default function Page() {
        * renders its own top-bar / disclosure-button variants.
        */}
       <div className="lg:flex lg:items-start">
-
         {/* ── Left rail ───────────────────────────────────────────────── */}
         {/*
          * lg:sticky lg:top-0 lg:h-screen keeps the rail fixed while the
@@ -94,12 +93,12 @@ export default function Page() {
             <div
               className={[
                 /* Mobile/tablet: absolute top-right inside the sticky Nav bar */
-                'absolute top-0 right-4 z-40',
-                'flex items-center',
-                'h-[53px]', /* matches Nav mobile bar height */
+                "absolute top-0 right-4 z-40",
+                "flex items-center",
+                "h-[53px]" /* matches Nav mobile bar height */,
                 /* Desktop: hidden here — rendered in the aside's flex column below */
-                'lg:hidden',
-              ].join(' ')}
+                "lg:hidden",
+              ].join(" ")}
             >
               <ThemeToggle />
             </div>
@@ -119,7 +118,6 @@ export default function Page() {
          * pb-24 gives generous bottom space after the last section.
          */}
         <div className="flex-1 min-w-0 px-5 sm:px-8 lg:px-12 xl:px-16 max-w-3xl pb-24">
-
           {/* Hero — no <Section> wrapper (has no h2); id is required for
               scroll-spy IntersectionObserver in Nav.tsx */}
           <div id="hero">
@@ -130,27 +128,17 @@ export default function Page() {
               with id, h2, and aria-labelledby (Req 12.4) */}
           <About profile={resume.profile} />
 
-          {resume.experience.length > 0 && (
-            <Experience entries={resume.experience} />
-          )}
+          {resume.experience.length > 0 && <Experience entries={resume.experience} />}
 
-          {resume.skills.length > 0 && (
-            <Skills groups={resume.skills} />
-          )}
+          {resume.skills.length > 0 && <Skills groups={resume.skills} />}
 
-          {resume.projects.length > 0 && (
-            <Projects projects={resume.projects} />
-          )}
+          {resume.projects.length > 0 && <Projects projects={resume.projects} />}
 
           <Education education={resume.education} />
 
-          {resume.courses.length > 0 && (
-            <Courses courses={resume.courses} />
-          )}
+          {resume.courses.length > 0 && <Courses courses={resume.courses} />}
 
-          {resume.contact.length > 0 && (
-            <Contact contact={resume.contact} />
-          )}
+          {resume.contact.length > 0 && <Contact contact={resume.contact} />}
         </div>
       </div>
 

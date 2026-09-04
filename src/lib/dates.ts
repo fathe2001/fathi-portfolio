@@ -2,18 +2,15 @@
 // Date formatting and sorting utilities for experience entries.
 // Uses an explicit month array for deterministic output (no locale dependency).
 
-import type { ExperienceEntry } from '@/content/schema';
+import type { ExperienceEntry } from "@/content/schema";
 
-const MONTHS = [
-  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-];
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 /**
  * Parses a YYYY-MM string into its year and short month name.
  */
 function parseYYYYMM(yyyymm: string): { year: string; monthName: string } {
-  const [year, month] = yyyymm.split('-');
+  const [year, month] = yyyymm.split("-");
   return { year, monthName: MONTHS[parseInt(month, 10) - 1] };
 }
 
@@ -29,7 +26,7 @@ export function formatDateRange(start: string, end: string | null): string {
         const { year, monthName } = parseYYYYMM(end);
         return `${monthName} ${year}`;
       })()
-    : 'Present';
+    : "Present";
   return `${startFormatted} \u2013 ${endFormatted}`;
 }
 

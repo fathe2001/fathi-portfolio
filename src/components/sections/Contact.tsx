@@ -10,40 +10,40 @@
  * - Server component — no 'use client' needed.
  */
 
-import { Mail, Phone, Linkedin, Github, Download } from 'lucide-react';
-import type { ContactLink } from '@/content/schema';
-import { Section } from '@/components/layout/Section';
-import { ExternalLink } from '@/components/ui/ExternalLink';
+import { Mail, Phone, Linkedin, Github, Download } from "lucide-react";
+import type { ContactLink } from "@/content/schema";
+import { Section } from "@/components/layout/Section";
+import { ExternalLink } from "@/components/ui/ExternalLink";
 
 interface ContactProps {
   contact: ContactLink[];
 }
 
 // Map each ContactLink kind to its lucide icon.
-function ContactIcon({ kind }: { kind: ContactLink['kind'] }) {
-  const cls = 'w-5 h-5 shrink-0';
+function ContactIcon({ kind }: { kind: ContactLink["kind"] }) {
+  const cls = "w-5 h-5 shrink-0";
   switch (kind) {
-    case 'email':
+    case "email":
       return <Mail className={cls} aria-hidden="true" />;
-    case 'phone':
+    case "phone":
       return <Phone className={cls} aria-hidden="true" />;
-    case 'linkedin':
+    case "linkedin":
       return <Linkedin className={cls} aria-hidden="true" />;
-    case 'github':
+    case "github":
       return <Github className={cls} aria-hidden="true" />;
-    case 'cv':
+    case "cv":
       return <Download className={cls} aria-hidden="true" />;
   }
 }
 
 // Shared class for every link row: full touch target, flex, consistent gap.
 const rowCls =
-  'inline-flex items-center gap-3 min-h-[44px] min-w-[44px] text-signal underline underline-offset-2 hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:rounded';
+  "inline-flex items-center gap-3 min-h-[44px] min-w-[44px] text-signal underline underline-offset-2 hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:rounded";
 
 function renderContactLink(link: ContactLink) {
   switch (link.kind) {
     // Req 9.1 — mailto: (address never exposed as raw plain text, Req 9.5)
-    case 'email':
+    case "email":
       return (
         <a href={link.href} className={rowCls}>
           <ContactIcon kind="email" />
@@ -52,7 +52,7 @@ function renderContactLink(link: ContactLink) {
       );
 
     // Req 9.2 — tel:
-    case 'phone':
+    case "phone":
       return (
         <a href={link.href} className={rowCls}>
           <ContactIcon kind="phone" />
@@ -61,29 +61,36 @@ function renderContactLink(link: ContactLink) {
       );
 
     // Req 9.3 — external profile links open in new tab (rel enforced by ExternalLink)
-    case 'linkedin':
-    case 'github':
+    case "linkedin":
+    case "github":
       return (
-        <ExternalLink href={link.href} className="inline-flex items-center gap-3 min-h-[44px] min-w-[44px]">
+        <ExternalLink
+          href={link.href}
+          className="inline-flex items-center gap-3 min-h-[44px] min-w-[44px]"
+        >
           <ContactIcon kind={link.kind} />
           <span>{link.label}</span>
         </ExternalLink>
       );
 
     // Req 9.4 — CV download from public/; `download` attribute prompts save dialog
-    case 'cv':
+    case "cv":
       return (
         <a
           href={link.href}
           download
-          className={link.primary ? [
-            'inline-flex items-center justify-center gap-3',
-            'min-h-[44px] min-w-[44px] px-6 py-2.5 rounded-sm',
-            'bg-signal text-bg font-semibold text-[0.9375rem]',
-            'hover:opacity-90 focus:outline-none focus-visible:ring-2',
-            'focus-visible:ring-signal focus-visible:ring-offset-2',
-            'focus-visible:ring-offset-bg transition-opacity',
-          ].join(' ') : rowCls}
+          className={
+            link.primary
+              ? [
+                  "inline-flex items-center justify-center gap-3",
+                  "min-h-[44px] min-w-[44px] px-6 py-2.5 rounded-sm",
+                  "bg-signal text-bg font-semibold text-[0.9375rem]",
+                  "hover:opacity-90 focus:outline-none focus-visible:ring-2",
+                  "focus-visible:ring-signal focus-visible:ring-offset-2",
+                  "focus-visible:ring-offset-bg transition-opacity",
+                ].join(" ")
+              : rowCls
+          }
         >
           <ContactIcon kind="cv" />
           <span>{link.label}</span>

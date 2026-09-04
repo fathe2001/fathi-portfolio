@@ -3,9 +3,9 @@
  * Renders degree, institution, graduation year, and coursework chips.
  */
 
-import { Section } from '@/components/layout/Section';
-import { Chip } from '@/components/ui/Chip';
-import type { Education as EducationType } from '@/content/schema';
+import { Section } from "@/components/layout/Section";
+import { Chip } from "@/components/ui/Chip";
+import type { Education as EducationType } from "@/content/schema";
 
 interface EducationProps {
   education: EducationType;

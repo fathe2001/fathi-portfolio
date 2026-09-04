@@ -8,10 +8,10 @@
  * - Server component — no 'use client' needed.
  */
 
-import type { ExperienceEntry } from '@/content/schema';
-import { byStartDesc } from '@/lib/dates';
-import { Section } from '@/components/layout/Section';
-import { TimelineItem } from '@/components/ui/TimelineItem';
+import type { ExperienceEntry } from "@/content/schema";
+import { byStartDesc } from "@/lib/dates";
+import { Section } from "@/components/layout/Section";
+import { TimelineItem } from "@/components/ui/TimelineItem";
 
 interface ExperienceProps {
   entries: ExperienceEntry[];

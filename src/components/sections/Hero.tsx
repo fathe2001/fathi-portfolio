@@ -8,7 +8,7 @@
  * - Server component — no 'use client' needed.
  */
 
-import type { Profile, ContactLink } from '@/content/schema';
+import type { Profile, ContactLink } from "@/content/schema";
 
 interface HeroProps {
   profile: Profile;
@@ -16,26 +16,26 @@ interface HeroProps {
 }
 
 export function Hero({ profile, contact }: HeroProps) {
-  const cvLink = contact.find((c) => c.kind === 'cv');
+  const cvLink = contact.find((c) => c.kind === "cv");
 
   return (
     <div className="py-16 md:py-24">
       {/* Name — <h1>, clamped display size, tight tracking (Req 2.1) */}
-      <h1 className="text-name animate-hero-settle mb-4">
-        {profile.name}
-      </h1>
+      <h1 className="text-name animate-hero-settle mb-4">{profile.name}</h1>
 
       {/* Positioning headline (Req 2.2) */}
-      <p className="text-title text-muted mb-6 max-w-measure">
-        {profile.headline}
-      </p>
+      <p className="text-title text-muted mb-6 max-w-measure">{profile.headline}</p>
 
       {/* Three-fact status line (Req 2.3) */}
       <p className="text-meta mb-10" aria-label="Status">
         {profile.statusLine[0]}
-        <span aria-hidden="true" className="mx-2 text-rule">·</span>
+        <span aria-hidden="true" className="mx-2 text-rule">
+          ·
+        </span>
         {profile.statusLine[1]}
-        <span aria-hidden="true" className="mx-2 text-rule">·</span>
+        <span aria-hidden="true" className="mx-2 text-rule">
+          ·
+        </span>
         {profile.statusLine[2]}
       </p>
 

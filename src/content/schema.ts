@@ -13,7 +13,7 @@ export interface Profile {
 }
 
 export interface ContactLink {
-  kind: 'email' | 'phone' | 'linkedin' | 'github' | 'cv';
+  kind: "email" | "phone" | "linkedin" | "github" | "cv";
   label: string;
   href: string; // mailto: / tel: / https: / /fathi-zidan-cv.pdf
   primary?: boolean;
@@ -31,7 +31,7 @@ export interface ExperienceEntry {
 }
 
 export interface SkillGroup {
-  label: 'Languages' | 'Areas' | 'Cloud & DevOps' | 'Tools';
+  label: "Languages" | "Areas" | "Cloud & DevOps" | "Tools";
   items: string[];
 }
 
@@ -55,7 +55,7 @@ export interface Course {
   title: string;
   provider: string;
   year: number;
-  status: 'completed' | 'in-progress'; // Req 7.4
+  status: "completed" | "in-progress"; // Req 7.4
   durationHours?: number;
   projectNote?: string;
 }
