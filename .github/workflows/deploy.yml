@@ -1,0 +1,118 @@
+name: Deploy
+
+# Publish the static site on every push to main. The build is gated: install,
+# lint, typecheck, test, and build all run first, and any failure aborts the job
+# before the publish step ever runs (Req 15.2, 15.3, 15.4).
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Least-privilege token scoped for GitHub Pages deployment.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never let two deploys race; let an in-flight run finish rather than cancel it.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  # Gate: install -> lint -> typecheck -> test -> build. If any step fails the
+  # job stops here and the deploy job below never starts.
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  # Publish: runs only after `build` succeeds. Because it `needs: build`, any
+  # failure in the gate above prevents publication entirely.
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+# ---------------------------------------------------------------------------
+# Alternative publish target — AWS S3 + CloudFront.
+#
+# Keep the same gated `build` job above (install/lint/typecheck/test/build),
+# but drop the `Configure Pages` / `Upload artifact` steps and the `deploy`
+# job, replacing them with the block below. Credentials come from an OIDC role
+# (no long-lived access keys). Set BUCKET and CLOUDFRONT_DISTRIBUTION_ID, and
+# the role ARN, as repository variables/secrets.
+#
+#   deploy:
+#     needs: build
+#     runs-on: ubuntu-latest
+#     permissions:
+#       id-token: write # required to request the OIDC token
+#       contents: read
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
+#
+#       - name: Setup Node
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: 20
+#           cache: npm
+#
+#       - name: Install
+#         run: npm ci
+#
+#       - name: Build
+#         run: npm run build
+#
+#       - name: Configure AWS credentials (OIDC)
+#         uses: aws-actions/configure-aws-credentials@v4
+#         with:
+#           role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+#           aws-region: ${{ vars.AWS_REGION }}
+#
+#       - name: Sync to S3
+#         run: aws s3 sync out/ "s3://${{ vars.BUCKET }}" --delete
+#
+#       - name: Invalidate CloudFront
+#         run: |
+#           aws cloudfront create-invalidation \
+#             --distribution-id "${{ vars.CLOUDFRONT_DISTRIBUTION_ID }}" \
+#             --paths "/*"
+# ---------------------------------------------------------------------------

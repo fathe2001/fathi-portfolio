@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+/* ─── Design tokens ─────────────────────────────────────────────────────── */
+
+:root {
+  --bg:      #FAFAF8; /* paper, very slightly warm off-white */
+  --surface: #EFEFEA; /* recessed panels, tag chips */
+  --text:    #16191C; /* body ink */
+  --muted:   #5A6169; /* dates, meta, secondary lines */
+  --rule:    #D5D6D0; /* hairlines and dividers */
+  --signal:  #1D6A6A; /* deep teal — links, active nav, focus */
+}
+
+.dark {
+  --bg:      #121417;
+  --surface: #1B1F23;
+  --text:    #E7E9E6;
+  --muted:   #99A1A8;
+  --rule:    #2C3238;
+  --signal:  #4FB3A8;
+}
+
+/* ─── Tailwind v4 theme extension ───────────────────────────────────────── */
+
+@theme {
+  /* Semantic color tokens — components use these names, never raw hex */
+  --color-bg:      var(--bg);
+  --color-surface: var(--surface);
+  --color-text:    var(--text);
+  --color-muted:   var(--muted);
+  --color-rule:    var(--rule);
+  --color-signal:  var(--signal);
+
+  /* Font families — populated by CSS variables injected from next/font */
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-body:    var(--font-source-sans), ui-sans-serif, system-ui, sans-serif;
+
+  /* Type scale */
+  --font-size-name:    clamp(3rem, 9vw, 6.5rem);
+  --font-size-heading: clamp(1.5rem, 3vw, 2rem);
+  --font-size-title:   1.25rem;
+  --font-size-body:    1rem;
+  --font-size-body-lg: 1.0625rem;
+  --font-size-meta:    0.875rem;
+
+  /* Line heights */
+  --line-height-name:    0.95;
+  --line-height-body:    1.6;
+
+  /* Letter spacing */
+  --tracking-name: -0.03em;
+
+  /* Measure constraint */
+  --max-width-measure: 72ch;
+}
+
+/* ─── Base styles ───────────────────────────────────────────────────────── */
+
+@layer base {
+  html {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px; /* Req 10.3 — minimum 16px on mobile */
+    line-height: var(--line-height-body);
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+  }
+
+  /* Smooth theme cross-fade — 150 ms, skipped when motion is reduced */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      transition: background-color 150ms ease, color 150ms ease;
+    }
+  }
+}
+
+/* ─── Hero settle animation (Req 2, 12.5) ──────────────────────────────── */
+
+/*
+ * The hero <h1> is the Largest Contentful Paint element. It must be painted
+ * at full opacity on the very first frame so LCP fires immediately (Req 14.1).
+ * The one-time "settle" is therefore a pure transform (scale) animation — the
+ * text is fully visible throughout, it just eases from 0.98 → 1 scale once.
+ * Animating opacity from 0 here would defer the LCP paint and tank the score.
+ */
+@keyframes hero-settle {
+  from { transform: scale(0.98); }
+  to   { transform: scale(1); }
+}
+
+/* Class is only active when the user hasn't requested reduced motion */
+@media (prefers-reduced-motion: no-preference) {
+  .animate-hero-settle {
+    animation: hero-settle 400ms ease forwards;
+    /* Hint the compositor so the transform never triggers layout/paint work */
+    will-change: transform;
+  }
+}
+
+/* ─── Typography utilities ──────────────────────────────────────────────── */
+
+@layer utilities {
+  /* Name / hero heading */
+  .text-name {
+    font-family: var(--font-display);
+    font-size: var(--font-size-name);
+    font-weight: 700;
+    line-height: var(--line-height-name);
+    letter-spacing: var(--tracking-name);
+  }
+
+  /* Section headings */
+  .text-heading {
+    font-family: var(--font-display);
+    font-size: var(--font-size-heading);
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  /* Role / project titles */
+  .text-title {
+    font-size: var(--font-size-title);
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  /* Meta — dates, location */
+  .text-meta {
+    font-size: var(--font-size-meta);
+    color: var(--muted);
+  }
+
+  /* 72ch reading measure — Req 3.3 */
+  .max-w-measure {
+    max-width: 72ch;
+  }
+}
