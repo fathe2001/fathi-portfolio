@@ -79,8 +79,8 @@ const profile: Profile = {
 const contact: ContactLink[] = [
   {
     kind: "email",
-    label: "fathi.zidan@example.com",
-    href: "mailto:fathi.zidan@example.com",
+    label: "fatraze@gmail.com",
+    href: "mailto:fatraze@gmail.com",
   },
   {
     kind: "phone",
