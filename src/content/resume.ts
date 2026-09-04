@@ -84,8 +84,8 @@ const contact: ContactLink[] = [
   },
   {
     kind: "phone",
-    label: "+972-XX-XXX-XXXX",
-    href: "tel:+972XXXXXXXXX",
+    label: "+972 50-227-9800",
+    href: "tel:+972502279800",
   },
   {
     kind: "linkedin",
@@ -94,8 +94,8 @@ const contact: ContactLink[] = [
   },
   {
     kind: "github",
-    label: "github.com/fathi-zidan",
-    href: "https://github.com/fathi-zidan",
+    label: "github.com/fathe2001",
+    href: "https://github.com/fathe2001",
   },
   {
     kind: "cv",
